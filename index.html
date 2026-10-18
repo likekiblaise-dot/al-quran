@@ -102,9 +102,424 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 14px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </style>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </head>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+<style id="alQuranPlayerStyle">
+#alQuranApp, #audioList {
+  width: min(94%, 680px);
+  margin: 18px auto;
+  box-sizing: border-box;
+}
+#alQuranApp { text-align: center; color: inherit; }
+#audioList { display: grid; gap: 10px; }
+#audioList .aq-track {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px; border: 1px solid #d6d6d6;
+  border-radius: 12px; background: rgba(128,128,128,.07);
+}
+#audioList .aq-label { font-weight: 600; text-align: left; }
+#audioList button, #aqControls button {
+  padding: 10px 14px; border: 0; border-radius: 9px;
+  cursor: pointer; font-size: 15px;
+}
+#audioList button { background: #176b45; color: white; }
+#audioList .aq-track.active { border: 2px solid #176b45; }
+#aqControls { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:14px auto; }
+#aqPlayer { display:block; width:min(94%, 680px); margin:14px auto; }
+#aqStatus { text-align:center; margin:10px auto; }
+</style>
+
+
+<style id="alQuranCompactStyle">
+#audioList {
+  width: min(94%, 520px);
+  gap: 5px;
+  margin: 12px auto;
+}
+#audioList .aq-track {
+  padding: 6px 9px;
+  gap: 8px;
+  border-radius: 8px;
+}
+#audioList .aq-label {
+  font-size: 15px;
+}
+#audioList button {
+  padding: 5px 9px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+#aqControls button {
+  padding: 7px 10px;
+  font-size: 13px;
+}
+#aqPlayer {
+  width: min(94%, 520px);
+}
+</style>
+
+
+<style id="alquran-premium-style">
+:root {
+  --aq-green: #104d37;
+  --aq-green2: #176b45;
+  --aq-gold: #d6b66c;
+  --aq-paper: #fbf8ef;
+}
+body {
+  background: linear-gradient(180deg, #f8f5e9 0%, #ffffff 55%);
+}
+#alquran-brand {
+  max-width: 760px;
+  margin: 18px auto;
+  padding: 24px 14px;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #0b3829, #176b45);
+  border: 2px solid var(--aq-gold);
+  border-radius: 18px;
+  box-shadow: 0 8px 22px #00000018;
+}
+#alquran-brand h2 {
+  margin: 0;
+  font-size: clamp(25px, 5vw, 36px);
+  letter-spacing: 1px;
+}
+#alquran-brand p { margin: 8px 0 0; color: #f3dfaa; }
+#alquran-settings-open {
+  display: block;
+  margin: 12px auto;
+  padding: 10px 17px;
+  border: 1px solid var(--aq-gold);
+  border-radius: 10px;
+  background: var(--aq-green);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+#alquran-settings-panel {
+  width: min(92%, 540px);
+  margin: 12px auto;
+  padding: 18px;
+  box-sizing: border-box;
+  background: white;
+  border: 1px solid #d8c58f;
+  border-radius: 15px;
+  box-shadow: 0 5px 18px #00000012;
+}
+#alquran-settings-panel[hidden] { display: none; }
+#alquran-settings-panel h3 { color: var(--aq-green); margin-top: 0; }
+#alquran-settings-panel .aq-setting-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee7d5;
+}
+#alquran-settings-panel label { display: block; margin-bottom: 7px; font-weight: 600; }
+#alquran-settings-panel select,
+#alquran-settings-panel button {
+  max-width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #c9c9c9;
+  border-radius: 8px;
+}
+#alquran-settings-panel button {
+  background: var(--aq-green);
+  color: white;
+  cursor: pointer;
+}
+#alquran-settings-panel .aq-note {
+  color: #666;
+  font-size: 13px;
+  line-height: 1.5;
+}
+#alquran-footer {
+  margin: 24px auto;
+  text-align: center;
+  color: #5b665f;
+  font-size: 13px;
+}
+</style>
+
+
+<style id="alquran-floating-settings-style">
+#alquran-settings-open {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 10001;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 2px solid #d6b66c;
+  border-radius: 50%;
+  background: #104d37;
+  color: white;
+  font-size: 23px;
+  box-shadow: 0 4px 12px #0003;
+  cursor: pointer;
+}
+#alquran-settings-open:hover {
+  transform: scale(1.08);
+}
+#alquran-settings-panel {
+  position: fixed;
+  top: 68px;
+  right: 14px;
+  z-index: 10000;
+  width: min(88vw, 360px);
+  max-height: 75vh;
+  overflow-y: auto;
+  margin: 0;
+}
+#alquran-settings-panel[hidden] {
+  display: none !important;
+}
+</style>
+
+
+<style id="alquran-beautiful-style">
+:root {
+  --alq-green: #104d37;
+  --alq-green-light: #1c7550;
+  --alq-gold: #d6b66c;
+  --alq-cream: #fbf8ef;
+  --alq-text: #183b2d;
+}
+
+body {
+  margin: 0;
+  padding-bottom: 28px;
+  background:
+    radial-gradient(ellipse at top, #e9f1e7 0%, transparent 60%),
+    linear-gradient(180deg, #fbf8ef, #ffffff);
+  color: var(--alq-text);
+  font-family: Arial, sans-serif;
+}
+
+#alquran-brand {
+  width: min(94%, 760px);
+  box-sizing: border-box;
+  margin: 16px auto 22px;
+  padding: 30px 16px 24px;
+  border: 2px solid var(--alq-gold);
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0b3829, #176b45);
+  color: white;
+  text-align: center;
+  box-shadow: 0 8px 22px #104d3722;
+}
+
+#alquran-brand h2 {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 38px);
+  letter-spacing: 1.5px;
+}
+
+#alquran-brand p {
+  margin: 10px 0 0;
+  color: #f4dfab;
+  line-height: 1.6;
+}
+
+#alquran-settings-open {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 10001;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--alq-gold);
+  border-radius: 50%;
+  background: var(--alq-green);
+  color: white;
+  font-size: 23px;
+  box-shadow: 0 4px 12px #0003;
+  cursor: pointer;
+}
+
+#audioList {
+  width: min(94%, 620px);
+  margin: 18px auto;
+  display: grid;
+  gap: 9px;
+}
+
+#audioList .aq-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  box-sizing: border-box;
+  padding: 10px 13px;
+  border: 1px solid #d9d5c7;
+  border-radius: 13px;
+  background: #ffffff;
+  box-shadow: 0 3px 9px #173d2b0d;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+#audioList .aq-track.active {
+  border: 2px solid var(--alq-gold);
+  background: #f0f7f0;
+  box-shadow: 0 4px 12px #104d371b;
+}
+
+#audioList .aq-label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--alq-green);
+  text-align: left;
+}
+
+#audioList button {
+  min-width: 74px;
+  min-height: 40px;
+  padding: 9px 13px;
+  border: 1px solid var(--alq-green-light);
+  border-radius: 9px;
+  background: var(--alq-green);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#audioList button:active,
+#aqControls button:active {
+  transform: scale(.97);
+}
+
+#aqPlayer {
+  display: block;
+  width: min(94%, 620px);
+  margin: 18px auto 12px;
+  border-radius: 12px;
+}
+
+#aqControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: min(94%, 620px);
+  box-sizing: border-box;
+  margin: 14px auto 18px;
+  padding: 15px 12px;
+  border: 1px solid var(--alq-gold);
+  border-radius: 17px;
+  background: linear-gradient(135deg, #0b3829, #176b45);
+  box-shadow: 0 7px 18px #104d3724;
+}
+
+#aqControls button {
+  min-width: 125px;
+  min-height: 46px;
+  padding: 11px 16px;
+  border: 1px solid var(--alq-gold);
+  border-radius: 11px;
+  background: #fffaf0;
+  color: var(--alq-green);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#aqStatus {
+  width: min(94%, 620px);
+  box-sizing: border-box;
+  margin: 10px auto 18px;
+  padding: 11px;
+  border-radius: 10px;
+  background: #eaf2e8;
+  color: var(--alq-green);
+  font-weight: 600;
+  text-align: center;
+}
+
+#alquran-settings-panel {
+  position: fixed;
+  top: 68px;
+  right: 12px;
+  z-index: 10000;
+  width: min(88vw, 360px);
+  max-height: 75vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 18px;
+  border: 1px solid var(--alq-gold);
+  border-radius: 16px;
+  background: #fffdf7;
+  color: var(--alq-text);
+  box-shadow: 0 10px 30px #0003;
+}
+
+#alquran-settings-panel[hidden] {
+  display: none !important;
+}
+
+#alquran-settings-panel h3 {
+  color: var(--alq-green);
+}
+
+@media (max-width: 420px) {
+  #alquran-brand {
+    margin-top: 70px;
+    padding: 23px 12px;
+  }
+
+  #audioList .aq-track {
+    min-height: 56px;
+    padding: 9px 10px;
+  }
+
+  #audioList button {
+    min-width: 66px;
+    padding: 8px 10px;
+  }
+
+  #aqControls {
+    gap: 8px;
+    padding: 12px 8px;
+  }
+
+  #aqControls button {
+    min-width: 112px;
+    flex: 1;
+    padding: 10px 8px;
+  }
+}
+</style>
+
+
+<style id="alquran-download-style">
+#audioList .aq-track{position:relative}
+#audioList .aq-track .aq-more{min-width:38px;width:38px;height:40px;padding:0;border:1px solid #d6b66c;border-radius:9px;background:#fffaf0;color:#104d37;font-size:23px}
+.aq-download-menu{position:absolute;right:8px;top:calc(100% - 3px);z-index:100;min-width:155px;padding:6px;border:1px solid #d6b66c;border-radius:10px;background:#fffdf7;box-shadow:0 6px 18px #0003}
+.aq-download-menu[hidden]{display:none}
+#audioList .aq-download-menu button{display:block;width:100%;min-height:40px;padding:9px 12px;border:0;border-radius:7px;background:transparent;color:#104d37;text-align:left;font-size:14px}
+</style>
+
+
+<style id="alquran-share-style">
+#alquran-share-section{margin-top:18px;padding-top:15px;border-top:1px solid #d9dfd5}
+#alquran-share-section h3{margin:0 0 7px;color:#145239}
+#alquran-share-section p{font-size:14px;line-height:1.5}
+.aq-share-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.aq-share-buttons button{min-height:43px;padding:10px;border:1px solid #d7c58d;border-radius:10px;background:#fffaf0;color:#145239;font-weight:600;cursor:pointer}
+.aq-share-buttons button:hover{background:#e8f1e8}
+#aq-share-status{font-size:13px;overflow-wrap:anywhere}
+@media(max-width:360px){.aq-share-buttons{grid-template-columns:1fr}}
+</style>
+
+</head>
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <body>
+
+<button id="alquran-settings-open" type="button"
+ aria-label="Open settings" aria-expanded="false"
+ title="Settings">⚙</button>
+
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <header>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <h1>AL QURAN</h1>
@@ -118,15 +533,64 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Select an audio to play
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </div>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <audio id="audioPlayer" controls></audio>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <div class="buttons">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button onclick="previousAudio()">Previous</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button onclick="nextAudio()">Next</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </div>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </div>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div id="audioList"></div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+<header id="alquran-brand">
+  <h2>☾ AL QURAN</h2>
+  <p>القرآن الكريم · Listen, reflect, and remember</p>
+</header>
+
+<section id="alquran-settings-panel" hidden>
+  <h3>⚙ App Settings</h3>
+
+  <div class="aq-setting-row">
+    <label for="aqSpeed">Audio playback speed</label>
+    <select id="aqSpeed">
+      <option value="0.75">0.75× — Slow</option>
+      <option value="1" selected>1× — Normal</option>
+      <option value="1.25">1.25×</option>
+      <option value="1.5">1.5×</option>
+    </select>
+  </div>
+
+  <div class="aq-setting-row">
+    <strong>App version:</strong> <span id="aqVersion">1.0.0</span>
+  </div>
+
+  <div class="aq-setting-row">
+    <strong>Created by:</strong><br>
+    Mohamadu Nurudini Taahir
+  </div>
+
+  <div class="aq-setting-row">
+    <button id="aqCheckUpdate" type="button">Check for updates</button>
+    <p id="aqUpdateMessage" class="aq-note">
+      Update checking will be available when an official update source is connected.
+    </p>
+  </div>
+
+  <div class="aq-setting-row">
+    <button id="aqRate" type="button">⭐ Rate AL QURAN</button>
+    <p class="aq-note">The Google Play rating page can be connected after publication.</p>
+  </div>
+
+  <div class="aq-setting-row">
+    <strong>About</strong>
+    <p class="aq-note">A simple Quran audio player with 115 recordings.</p>
+  </div>
+
+  <button id="aqCloseSettings" type="button">Close settings</button>
+</section>
+
+
+<div id="audioList"></div>
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </div>
 
@@ -209,5 +673,346 @@
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </script>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </body>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+
+
+<script id="alQuranPlayerScript">
+(async function () {
+  const list = document.getElementById('audioList');
+  if (!list) return;
+
+  const response = await fetch('audio/playlist.json');
+  if (!response.ok) throw new Error('Could not load playlist');
+  const tracks = await response.json();
+
+  let audio = document.getElementById('aqPlayer');
+  if (!audio) {
+    audio = document.createElement('audio');
+    audio.id = 'aqPlayer';
+    audio.controls = true;
+    audio.preload = 'metadata';
+    list.parentNode.insertBefore(audio, list);
+  }
+  audio.controls = true;
+
+  let controls = document.getElementById('aqControls');
+  if (!controls) {
+    controls = document.createElement('div');
+    controls.id = 'aqControls';
+    audio.insertAdjacentElement('afterend', controls);
+  }
+  controls.innerHTML = '';
+
+  function makeButton(label, action) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = label;
+    b.addEventListener('click', action);
+    controls.appendChild(b);
+  }
+
+  const status = document.getElementById('aqStatus') ||
+    document.createElement('p');
+  status.id = 'aqStatus';
+  controls.insertAdjacentElement('afterend', status);
+
+  let current = 0;
+  let changingTrack = false;
+
+  function selectTrack(index, startPlaying = true) {
+    if (index < 0 || index >= tracks.length) return;
+    current = index;
+    changingTrack = true;
+    audio.src = 'audio/' + encodeURIComponent(tracks[index].filename);
+    audio.load();
+    list.querySelectorAll('.aq-track').forEach((row, i) => {
+      row.classList.toggle('active', i === current);
+      const b = row.querySelector('button');
+      b.textContent = i === current ? 'Selected' : 'Play';
+    });
+    status.textContent = 'الصوت ' + (current + 1) + ' من ' + tracks.length;
+    changingTrack = false;
+    if (startPlaying) {
+      audio.play().catch(() => {
+        status.textContent += ' — press Play if playback does not start.';
+      });
+    }
+  }
+
+  list.innerHTML = '';
+  tracks.forEach((track, index) => {
+    const row = document.createElement('div');
+    row.className = 'aq-track';
+    const label = document.createElement('span');
+    label.className = 'aq-label';
+    label.textContent = 'الصوت ' + (index + 1);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'Play';
+    button.addEventListener('click', () => selectTrack(index, true));
+    row.append(label, button);
+    list.appendChild(row);
+  });
+
+  makeButton('⏮ Previous', () => selectTrack(current - 1, true));
+  makeButton('Next ⏭', () => selectTrack(current + 1, true));
+
+  audio.addEventListener('ended', () => {
+    if (current < tracks.length - 1) {
+      selectTrack(current + 1, true);
+    } else {
+      status.textContent = 'You have reached Audio 115 — end of the recordings.';
+    }
+  });
+
+  selectTrack(0, false);
+  console.log('AL QURAN ready: ' + tracks.length + ' recordings');
+})().catch(err => {
+  console.error(err);
+  alert('The Quran player could not start. Check the terminal or browser console.');
+});
+</script>
+
+
+<script id="alquran-settings-script">
+(function () {
+  const open = document.getElementById('alquran-settings-open');
+  const panel = document.getElementById('alquran-settings-panel');
+  const close = document.getElementById('aqCloseSettings');
+  const speed = document.getElementById('aqSpeed');
+
+  if (!open || !panel) return;
+
+  open.addEventListener('click', function () {
+    panel.hidden = !panel.hidden;
+    open.setAttribute('aria-expanded', String(!panel.hidden));
+  });
+
+  close.addEventListener('click', function () {
+    panel.hidden = true;
+    open.setAttribute('aria-expanded', 'false');
+  });
+
+  speed.addEventListener('change', function () {
+    const player = document.getElementById('aqPlayer');
+    if (player) player.playbackRate = Number(speed.value);
+    try { localStorage.setItem('alquran-playback-speed', speed.value); } catch (_) {}
+  });
+
+  try {
+    const savedSpeed = localStorage.getItem('alquran-playback-speed');
+    if (savedSpeed && [...speed.options].some(o => o.value === savedSpeed)) {
+      speed.value = savedSpeed;
+      const player = document.getElementById('aqPlayer');
+      if (player) player.playbackRate = Number(savedSpeed);
+    }
+  } catch (_) {}
+
+  document.getElementById('aqCheckUpdate').addEventListener('click', function () {
+    document.getElementById('aqUpdateMessage').textContent =
+      'You are using version 1.0.0. An official online update service has not been connected yet.';
+  });
+
+  document.getElementById('aqRate').addEventListener('click', function () {
+    alert('Thank you for supporting AL QURAN! The Google Play rating link can be added after publication.');
+  });
+})();
+</script>
+
+
+<script id="alquran-download-script">
+(function(){
+  const list=document.getElementById('audioList');
+  if(!list){console.error('audioList not found');return;}
+
+  async function getTracks(){
+    const r=await fetch('audio/playlist.json');
+    if(!r.ok) throw new Error('Playlist unavailable');
+    return await r.json();
+  }
+
+  list.querySelectorAll('.aq-track').forEach(function(row,index){
+    if(row.querySelector('.aq-more')) return;
+    const label=row.querySelector('.aq-label');
+    if(!label) return;
+
+    const found=label.textContent.match(/\d+/);
+    const number=found?Number(found[0]):index+1;
+
+    const more=document.createElement('button');
+    more.type='button';
+    more.className='aq-more';
+    more.textContent='⋮';
+    more.setAttribute('aria-label','More options for '+label.textContent);
+    more.setAttribute('aria-expanded','false');
+
+    const menu=document.createElement('div');
+    menu.className='aq-download-menu';
+    menu.hidden=true;
+
+    const download=document.createElement('button');
+    download.type='button';
+    download.textContent='⬇ Download audio';
+
+    download.addEventListener('click',async function(){
+      try{
+        const tracks=await getTracks();
+        const track=tracks.find(t=>Number(t.number)===number);
+        if(!track||!track.filename) throw new Error('Recording not found');
+
+        const url='audio/'+track.filename.split('/').map(encodeURIComponent).join('/');
+        const link=document.createElement('a');
+        link.href=url;
+        link.download=track.filename.split('/').pop();
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        menu.hidden=true;
+        more.setAttribute('aria-expanded','false');
+      }catch(e){
+        alert('Download could not start. Please try again.');
+        console.error(e);
+      }
+    });
+
+    menu.appendChild(download);
+    row.appendChild(more);
+    row.appendChild(menu);
+
+    more.addEventListener('click',function(e){
+      e.stopPropagation();
+      const open=menu.hidden;
+      list.querySelectorAll('.aq-download-menu').forEach(m=>m.hidden=true);
+      list.querySelectorAll('.aq-more').forEach(b=>b.setAttribute('aria-expanded','false'));
+      menu.hidden=!open;
+      more.setAttribute('aria-expanded',String(open));
+    });
+  });
+
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#audioList .aq-track')) return;
+    list.querySelectorAll('.aq-download-menu').forEach(m=>m.hidden=true);
+    list.querySelectorAll('.aq-more').forEach(b=>b.setAttribute('aria-expanded','false'));
+  });
+
+  const observer=new MutationObserver(function(){
+    list.querySelectorAll('.aq-track').forEach(function(row,index){
+      if(row.querySelector('.aq-more')) return;
+      const label=row.querySelector('.aq-label');
+      if(!label) return;
+      const n=label.textContent.match(/\d+/);
+      if(!n) return;
+      const more=document.createElement('button');
+      more.type='button';more.className='aq-more';more.textContent='⋮';
+      more.setAttribute('aria-label','More options for '+label.textContent);
+      const menu=document.createElement('div');menu.className='aq-download-menu';menu.hidden=true;
+      const b=document.createElement('button');b.type='button';b.textContent='⬇ Download audio';
+      b.addEventListener('click',async function(){
+        try{
+          const tracks=await getTracks();
+          const t=tracks.find(x=>Number(x.number)===Number(n[0]));
+          if(!t)throw new Error('Track not found');
+          const a=document.createElement('a');
+          a.href='audio/'+t.filename.split('/').map(encodeURIComponent).join('/');
+          a.download=t.filename.split('/').pop();
+          document.body.appendChild(a);a.click();a.remove();menu.hidden=true;
+        }catch(e){alert('Download could not start. Please try again.');}
+      });
+      more.addEventListener('click',function(e){
+        e.stopPropagation();
+        const open=menu.hidden;
+        list.querySelectorAll('.aq-download-menu').forEach(m=>m.hidden=true);
+        menu.hidden=!open;
+      });
+      menu.appendChild(b);row.appendChild(more);row.appendChild(menu);
+    });
+  });
+  observer.observe(list,{childList:true});
+})();
+</script>
+
+
+<script id="alquran-share-script">
+(function(){
+  const panel=document.getElementById('alquran-settings-panel');
+  if(!panel||panel.querySelector('#alquran-share-section')) return;
+
+  const section=document.createElement('section');
+  section.id='alquran-share-section';
+  section.innerHTML=`
+    <h3>📤 Share AL QURAN</h3>
+    <p>Share the Quran audio app with your family, friends and others.</p>
+    <div class="aq-share-buttons">
+      <button type="button" id="aq-share-whatsapp">WhatsApp</button>
+      <button type="button" id="aq-share-facebook">Facebook</button>
+      <button type="button" id="aq-share-people">Share with people</button>
+      <button type="button" id="aq-share-copy">Copy app link</button>
+    </div>
+    <p id="aq-share-status" role="status" aria-live="polite"></p>
+  `;
+
+  const close=panel.querySelector('button');
+  if(close) close.insertAdjacentElement('beforebegin',section);
+  else panel.appendChild(section);
+
+  function appLink(){
+    return window.location.href.split('#')[0];
+  }
+
+  function shareText(){
+    return 'Listen to Quran recitations with AL QURAN.';
+  }
+
+  document.getElementById('aq-share-whatsapp').addEventListener('click',function(){
+    const url='https://wa.me/?text='+encodeURIComponent(shareText()+' '+appLink());
+    window.open(url,'_blank','noopener,noreferrer');
+  });
+
+  document.getElementById('aq-share-facebook').addEventListener('click',function(){
+    const url='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(appLink());
+    window.open(url,'_blank','noopener,noreferrer');
+  });
+
+  document.getElementById('aq-share-people').addEventListener('click',async function(){
+    const data={title:'AL QURAN',text:shareText(),url:appLink()};
+    if(navigator.share){
+      try{await navigator.share(data);}
+      catch(e){if(e.name!=='AbortError') showStatus('Sharing was not completed.');}
+    }else{
+      await copyLink();
+    }
+  });
+
+  async function copyLink(){
+    const link=appLink();
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(link);
+      }else{
+        const input=document.createElement('textarea');
+        input.value=link;
+        input.style.position='fixed';
+        input.style.opacity='0';
+        document.body.appendChild(input);
+        input.select();
+        const ok=document.execCommand('copy');
+        input.remove();
+        if(!ok) throw new Error('Copy failed');
+      }
+      showStatus('App link copied. You can paste it into a message.');
+    }catch(e){
+      showStatus('Copy was blocked. Copy this address from your browser: '+link);
+    }
+  }
+
+  function showStatus(message){
+    document.getElementById('aq-share-status').textContent=message;
+  }
+
+  document.getElementById('aq-share-copy').addEventListener('click',copyLink);
+})();
+</script>
+
+</body>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </html>
